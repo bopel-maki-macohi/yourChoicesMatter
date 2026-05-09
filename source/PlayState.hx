@@ -49,7 +49,7 @@ class PlayState extends FlxState
 
 					if (FlxG.mouse.justPressed)
 					{
-						selectableOptions = false;
+						performOption(1);
 					}
 				}
 				else
@@ -112,5 +112,26 @@ class PlayState extends FlxState
 		{
 			selectableOptions = true;
 		});
+	}
+
+	public function performOption(option:Int)
+	{
+		FlxTween.tween(option1, {alpha: 0, y: option1.y + option1.height * .1}, .5, {
+			startDelay: .1,
+			ease: FlxEase.backInOut,
+			onComplete: t ->
+			{
+				option1.destroy();
+				option1 = null;
+			}
+		});
+
+		selectableOptions = false;
+
+		switch (option)
+		{
+			case 1:
+				FlxTween.tween(object, {x: FlxG.width}, .5, {ease: FlxEase.backInOut});
+		}
 	}
 }
