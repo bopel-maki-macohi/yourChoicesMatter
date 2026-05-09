@@ -42,7 +42,7 @@ class PlayState extends FlxState
 		if (selectableOptions)
 		{
 			if (option1 != null)
-				option1.alpha = FlxMath.lerp(option1.alpha, (FlxG.mouse.overlaps(option1)) ? 1 : .8, .1);
+				option1.alpha = FlxMath.lerp(option1.alpha, (FlxG.mouse.overlaps(option1)) ? 1 : .8, .4);
 		}
 	}
 
@@ -89,9 +89,9 @@ class PlayState extends FlxState
 		option1.camera = optionsCamera;
 
 		option1.alpha = 0;
-		option1.y -= option1.height * .1;
+		option1.y += option1.height * .1;
 
-		FlxTween.tween(option1, {alpha: .8, y: option1.y + option1.height * .1}, .5, {
+		FlxTween.tween(option1, {alpha: .8, y: option1.y - option1.height * .1}, .5, {
 			startDelay: .1,
 			ease: FlxEase.backInOut
 		});
