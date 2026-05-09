@@ -42,7 +42,24 @@ class PlayState extends FlxState
 		if (selectableOptions)
 		{
 			if (option1 != null)
-				option1.alpha = FlxMath.lerp(option1.alpha, (FlxG.mouse.overlaps(option1)) ? 1 : .8, .4);
+			{
+				if (FlxG.mouse.overlaps(option1))
+				{
+					option1.alpha = FlxMath.lerp(option1.alpha, 1, .4);
+
+					if (FlxG.mouse.justPressed)
+					{
+						selectableOptions = false;
+					}
+				}
+				else
+					option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
+			}
+		}
+		else
+		{
+			if (option1 != null)
+				option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
 		}
 	}
 
