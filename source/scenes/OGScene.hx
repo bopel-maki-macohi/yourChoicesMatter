@@ -18,9 +18,11 @@ class OGScene
 		object.screenCenter();
 
 		objectXCenter = object.x;
+
+		PlayState.instance.add(object);
 	}
 
-	public function intro(end:Void->Void)
+	public function intro()
 	{
 		object.x = -object.width;
 
@@ -33,8 +35,7 @@ class OGScene
 					ease: FlxEase.sineIn,
 					onComplete: t ->
 					{
-						if (end != null)
-							end();
+						PlayState.instance.displayOptions();
 					}
 				});
 			}

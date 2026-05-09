@@ -18,9 +18,15 @@ class PlayState extends FlxState
 	public var sceneCamera:FlxCamera;
 	public var optionsCamera:FlxCamera;
 
+	public static var instance:PlayState;
+
 	override public function create()
 	{
 		super.create();
+
+		if (instance != null)
+			instance = null;
+		instance = this;
 
 		sceneCamera = new FlxCamera();
 		FlxG.cameras.add(sceneCamera, true);
@@ -30,7 +36,6 @@ class PlayState extends FlxState
 		optionsCamera.bgColor.alpha = 0;
 
 		scene = new OGScene();
-		add(scene.object);
 
 		play();
 	}
@@ -55,7 +60,7 @@ class PlayState extends FlxState
 				else
 					option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
 			}
-			
+
 			if (option2 != null)
 			{
 				if (FlxG.mouse.overlaps(option2))
@@ -79,7 +84,7 @@ class PlayState extends FlxState
 	{
 		step = 0;
 
-		scene.intro(displayOptions);
+		scene.intro();
 	}
 
 	public var option1:FlxSprite;
@@ -102,7 +107,7 @@ class PlayState extends FlxState
 			startDelay: .1,
 			ease: FlxEase.backInOut
 		});
-		
+
 		option2 = new FlxSprite().makeGraphic(128, 128, FlxColor.WHITE);
 		add(option2);
 		option2.screenCenter();
