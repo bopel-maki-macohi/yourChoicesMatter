@@ -56,11 +56,6 @@ class PlayState extends FlxState
 					option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
 			}
 		}
-		else
-		{
-			if (option1 != null)
-				option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
-		}
 	}
 
 	public var step:Int = 0;
