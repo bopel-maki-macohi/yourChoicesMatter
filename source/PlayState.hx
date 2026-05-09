@@ -45,12 +45,8 @@ class PlayState extends FlxState
 		super.update(elapsed);
 	}
 
-	public var step:Int = 0;
-
 	public function play()
 	{
-		step = 0;
-
 		scene.intro();
 	}
 
