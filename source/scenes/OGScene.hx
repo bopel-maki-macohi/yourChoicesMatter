@@ -6,7 +6,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
-class OGScene extends Scene
+class OGScene extends TwoOptionScene
 {
 	public var object:FlxSprite;
 
@@ -15,8 +15,6 @@ class OGScene extends Scene
 	public function new()
 	{
 		super();
-
-		options = 2;
 
 		object = new FlxSprite().makeGraphic(64, 64, FlxColor.RED);
 		object.screenCenter();
@@ -55,14 +53,5 @@ class OGScene extends Scene
 			case 2:
 				FlxTween.tween(object, {x: -FlxG.width}, .5, {ease: FlxEase.backInOut});
 		}
-	}
-
-	override public function positionOptions()
-	{
-		var option1:FlxSprite = PlayState.instance.options[0];
-		var option2:FlxSprite = PlayState.instance.options[1];
-
-		option1.x -= option1.width;
-		option2.x += option2.width;
 	}
 }
