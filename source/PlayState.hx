@@ -1,5 +1,6 @@
 package;
 
+import scenes.OGScene;
 import scenes.Scene;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
@@ -35,7 +36,7 @@ class PlayState extends FlxState
 		FlxG.cameras.add(optionsCamera, false);
 		optionsCamera.bgColor.alpha = 0;
 
-		scene = new Scene();
+		scene = new OGScene();
 
 		play();
 	}
