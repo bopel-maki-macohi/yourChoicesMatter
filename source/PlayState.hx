@@ -1,5 +1,6 @@
 package;
 
+import scenes.OGScene;
 import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
 import flixel.FlxG;
@@ -12,7 +13,7 @@ import flixel.FlxState;
 
 class PlayState extends FlxState
 {
-	public var object:FlxSprite;
+	public var scene:OGScene;
 
 	public var sceneCamera:FlxCamera;
 	public var optionsCamera:FlxCamera;
@@ -28,9 +29,8 @@ class PlayState extends FlxState
 		FlxG.cameras.add(optionsCamera, false);
 		optionsCamera.bgColor.alpha = 0;
 
-		object = new FlxSprite().makeGraphic(64, 64, FlxColor.RED);
-		add(object);
-		object.screenCenter();
+		scene = new OGScene();
+		add(scene.object);
 
 		play();
 	}
@@ -79,28 +79,7 @@ class PlayState extends FlxState
 	{
 		step = 0;
 
-		introStep();
-	}
-
-	public function introStep()
-	{
-		final objectCenterX:Float = object.x;
-		object.x = -object.width;
-
-		FlxTween.tween(object, {x: objectCenterX}, 1, {
-			ease: FlxEase.backInOut,
-			onComplete: t ->
-			{
-				FlxTween.tween(object, {x: object.x - object.width}, .25, {
-					startDelay: 1,
-					ease: FlxEase.sineIn,
-					onComplete: t ->
-					{
-						displayOptions();
-					}
-				});
-			}
-		});
+		scene.intro(displayOptions);
 	}
 
 	public var option1:FlxSprite;
@@ -171,12 +150,6 @@ class PlayState extends FlxState
 
 		selectableOptions = false;
 
-		switch (option)
-		{
-			case 1:
-				FlxTween.tween(object, {x: FlxG.width}, .5, {ease: FlxEase.backInOut});
-			case 2:
-				FlxTween.tween(object, {x: -FlxG.width}, .5, {ease: FlxEase.backInOut});
-		}
+		scene.onOption(option);
 	}
 }
