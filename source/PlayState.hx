@@ -36,18 +36,21 @@ class PlayState extends FlxState
 		FlxG.cameras.add(optionsCamera, false);
 		optionsCamera.bgColor.alpha = 0;
 
-		if (scene != null)
-			play();
+		play();
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (scene != null)
+			scene.update(elapsed);
 	}
 
 	public function play()
 	{
-		scene.intro();
+		if (scene != null)
+			scene.intro();
 	}
 
 	public var options:Array<SceneOption> = [];
@@ -56,6 +59,9 @@ class PlayState extends FlxState
 
 	public function displayOptions()
 	{
+		if (scene == null)
+			return;
+
 		var startDelay:Float = 0.1;
 
 		for (i in 0...scene.options)
@@ -103,6 +109,9 @@ class PlayState extends FlxState
 				}
 			});
 		}
+
+		if (scene == null)
+			return;
 
 		scene.onOption(option);
 	}

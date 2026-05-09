@@ -6,7 +6,12 @@ class Scene
 
 	public function new() {}
 
-	public function intro() {}
+	public function intro()
+	{
+		PlayState.instance.displayOptions();
+	}
+
+	public function update(elapsed:Float) {}
 
 	public function onOption(option:Int) {}
 
