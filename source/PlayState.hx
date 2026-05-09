@@ -67,6 +67,7 @@ class PlayState extends FlxState
 			var option = new SceneOption(i + 1);
 			options.push(option);
 			add(option);
+			option.screenCenter();
 
 			option.callback = () -> performOption(option.option);
 			option.selectable = false;
