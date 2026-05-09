@@ -14,7 +14,7 @@ import flixel.FlxState;
 
 class PlayState extends FlxState
 {
-	public var scene:Scene;
+	public static var scene:Scene;
 
 	public var sceneCamera:FlxCamera;
 	public var optionsCamera:FlxCamera;
@@ -36,9 +36,8 @@ class PlayState extends FlxState
 		FlxG.cameras.add(optionsCamera, false);
 		optionsCamera.bgColor.alpha = 0;
 
-		scene = new OGScene();
-
-		play();
+		if (scene != null)
+			play();
 	}
 
 	override public function update(elapsed:Float)
