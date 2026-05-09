@@ -6,16 +6,18 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
-class OGScene
+class OGScene extends Scene
 {
 	public var object:FlxSprite;
 
 	public var objectXCenter:Float = 0;
 
-    public var options:Int = 2;
-
 	public function new()
 	{
+		super();
+
+		options = 2;
+
 		object = new FlxSprite().makeGraphic(64, 64, FlxColor.RED);
 		object.screenCenter();
 
@@ -24,7 +26,7 @@ class OGScene
 		PlayState.instance.add(object);
 	}
 
-	public function intro()
+	override public function intro()
 	{
 		object.x = -object.width;
 
@@ -44,7 +46,7 @@ class OGScene
 		});
 	}
 
-	public function onOption(option:Int)
+	override public function onOption(option:Int)
 	{
 		switch (option)
 		{
@@ -55,12 +57,12 @@ class OGScene
 		}
 	}
 
-    public function positionOptions()
-    {
-        var option1:FlxSprite = PlayState.instance.options[0];
-        var option2:FlxSprite = PlayState.instance.options[1];
+	override public function positionOptions()
+	{
+		var option1:FlxSprite = PlayState.instance.options[0];
+		var option2:FlxSprite = PlayState.instance.options[1];
 
-        option1.x -= option1.width;
-        option2.x += option2.width;
-    }
+		option1.x -= option1.width;
+		option2.x += option2.width;
+	}
 }
