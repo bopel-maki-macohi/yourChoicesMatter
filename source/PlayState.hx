@@ -43,39 +43,6 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-
-		if (selectableOptions)
-		{
-			if (option1 != null)
-			{
-				if (FlxG.mouse.overlaps(option1))
-				{
-					option1.alpha = FlxMath.lerp(option1.alpha, 1, .4);
-
-					if (FlxG.mouse.justPressed)
-					{
-						performOption(1);
-					}
-				}
-				else
-					option1.alpha = FlxMath.lerp(option1.alpha, .8, .4);
-			}
-
-			if (option2 != null)
-			{
-				if (FlxG.mouse.overlaps(option2))
-				{
-					option2.alpha = FlxMath.lerp(option2.alpha, 1, .4);
-
-					if (FlxG.mouse.justPressed)
-					{
-						performOption(2);
-					}
-				}
-				else
-					option2.alpha = FlxMath.lerp(option2.alpha, .8, .4);
-			}
-		}
 	}
 
 	public var step:Int = 0;
@@ -87,73 +54,58 @@ class PlayState extends FlxState
 		scene.intro();
 	}
 
-	public var option1:FlxSprite;
-	public var option2:FlxSprite;
+	public var options:Array<SceneOption> = [];
 
 	public var selectableOptions:Bool = false;
 
 	public function displayOptions()
 	{
-		option1 = new FlxSprite().makeGraphic(128, 128, FlxColor.WHITE);
-		add(option1);
-		option1.screenCenter();
+		var startDelay:Float = 0.1;
 
-		option1.camera = optionsCamera;
-
-		option1.alpha = 0;
-		option1.y += option1.height * .1;
-
-		FlxTween.tween(option1, {alpha: .8, y: option1.y - option1.height * .1}, .5, {
-			startDelay: .1,
-			ease: FlxEase.backInOut
-		});
-
-		option2 = new FlxSprite().makeGraphic(128, 128, FlxColor.WHITE);
-		add(option2);
-		option2.screenCenter();
-
-		option2.camera = optionsCamera;
-
-		option2.alpha = 0;
-		option2.y += option2.height * .1;
-
-		option1.x -= option1.width;
-		option2.x += option2.width;
-
-		FlxTween.tween(option2, {alpha: .8, y: option2.y - option2.height * .1}, .5, {
-			startDelay: .1,
-			ease: FlxEase.backInOut
-		});
-
-		FlxTimer.wait(.6, () ->
+		for (i in 0...scene.options)
 		{
-			selectableOptions = true;
-		});
+			var option = new SceneOption(i + 1);
+			options.push(option);
+			add(option);
+
+			option.callback = () -> performOption(option.option);
+			option.selectable = false;
+
+			option.camera = optionsCamera;
+
+			option.alpha = 0;
+			option.y += option.height * .1;
+
+			FlxTween.tween(option, {alpha: .8, y: option.y - option.height * .1}, .5, {
+				startDelay: startDelay,
+				ease: FlxEase.backInOut,
+				onComplete: t ->
+				{
+					option.selectable = true;
+				}
+			});
+
+			startDelay += .1;
+		}
+
+		scene.positionOptions();
 	}
 
 	public function performOption(option:Int)
 	{
-		FlxTween.tween(option1, {alpha: 0, y: option1.y + option1.height * .1}, .5, {
-			startDelay: .1,
-			ease: FlxEase.backInOut,
-			onComplete: t ->
-			{
-				option1.destroy();
-				option1 = null;
-			}
-		});
-
-		FlxTween.tween(option2, {alpha: 0, y: option2.y + option2.height * .1}, .5, {
-			startDelay: .1,
-			ease: FlxEase.backInOut,
-			onComplete: t ->
-			{
-				option2.destroy();
-				option2 = null;
-			}
-		});
-
-		selectableOptions = false;
+		for (option in options)
+		{
+			FlxTween.tween(option, {alpha: 0, y: option.y + option.height * .1}, .5, {
+				startDelay: .1 * option.option,
+				ease: FlxEase.backInOut,
+				onComplete: t ->
+				{
+					remove(option);
+					option.destroy();
+					option = null;
+				}
+			});
+		}
 
 		scene.onOption(option);
 	}
